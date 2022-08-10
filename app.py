@@ -81,7 +81,22 @@ def getpets():
 @app.route('/pet/<int:pet_id>', methods=['PATCH'])
 def update_pet(pet_id):
     pet = Pet.query.get(pet_id)
-    pet_age = request.jso
+    pet_age = request.json['pet_age']
+    pet_description = request.json['pet_description']
+    
+    if pet is None:
+        abort(404)
+        
+    else:
+        pet.pet_age = pet_age
+        pet.pet_decription = pet_description
+        db.session.add(pet)
+        db.session.commit()
+        
+        return jsonify({
+            "success": True,
+            "response": "Pet Details updated"
+        })
     
 
 db.create_all()
