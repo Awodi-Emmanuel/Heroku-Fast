@@ -97,6 +97,16 @@ def update_pet(pet_id):
 @app.route('/pet/<int:pet_id>', methods=['DELETE'])
 def delete_pet(pet_id):
     pet = Pet.query.get(pet_id)
+    pet_age = request.json['pet_age']
+    pet_description = request.josn['pet_description']
+    
+    if pet is None:
+        abort(404)
+    else:
+        db.session.delete(pet)
+        db.session.commit()
+        
+        return jsonify({"success": True, "response": "Pet deleted"})
     
             
 
